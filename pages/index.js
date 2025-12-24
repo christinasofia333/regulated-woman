@@ -4,7 +4,14 @@ export default function Home() {
 const [isAuthenticated, setIsAuthenticated] = useState(false);
 const [passwordInput, setPasswordInput] = useState('');
 const [error, setError] = useState('');
-
+const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: "Hey beautiful 💫 I'm here to support you through the hard moments—mind, body, heart, and soul. What's going on right now?"
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
  useEffect(() => {
     // Check if already authenticated in this session
     if (sessionStorage.getItem('authenticated') === 'true') {
@@ -56,11 +63,6 @@ const [error, setError] = useState('');
       </div>
     );
   }  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: "Hey beautiful 💫 I'm here to support you through the hard moments—mind, body, heart, and soul. What's going on right now?"
-    }
-  ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
