@@ -45,7 +45,7 @@ export default function Home() {
             <span className="text-2xl">💗</span>
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-gray-800">The Regulated Woman</h1>
+            <h1 className="text-xl font-semibold text-gray-800">Feminine Regulation</h1>
             <p className="text-sm text-gray-600">Mind • Body • Heart • Soul Healing</p>
           </div>
         </div>
