@@ -1,5 +1,17 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
+export default function Home() {
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const authenticated = sessionStorage.getItem('beta-authenticated');
+      if (!authenticated) {
+        router.push('/beta');
+      }
+    }
+  }, [router]);
 export default function Home() {
   const [messages, setMessages] = useState([
     {
