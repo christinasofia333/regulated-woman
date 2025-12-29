@@ -1,24 +1,12 @@
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-
-export default function Home() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
-import { useState, useEffect } from 'react';
  
 export default function Home() {
-const [isAuthenticated, setIsAuthenticated] = useState(false);
-const [passwordInput, setPasswordInput] = useState('');
-const [error, setError] = useState('');
-const [messages, setMessages] = useState([
+export default function Home() {
+  const [mounted, setMounted] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [error, setError] = useState('');
+  const [messages, setMessages] = useState([
     {
       role: 'assistant',
       content: "Hey beautiful 💫 I'm here to support you through the hard moments—mind, body, heart, and soul. What's going on right now?"
@@ -26,9 +14,11 @@ const [messages, setMessages] = useState([
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
- useEffect(() => {
+
+  useEffect(() => {
+    setMounted(true);
     // Check if already authenticated in this session
-    if (sessionStorage.getItem('authenticated') === 'true') {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('authenticated') === 'true') {
       setIsAuthenticated(true);
     }
   }, []);
@@ -44,7 +34,13 @@ const [messages, setMessages] = useState([
     }
   };
 
+  // Don't render anything until client-side mount
+  if (!mounted) {
+    return null;
+  }
+
   if (!isAuthenticated) {
+    // ... password form (keep the same)
     return (
       <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
