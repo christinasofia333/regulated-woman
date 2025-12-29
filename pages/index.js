@@ -71,9 +71,6 @@ export default function Home() {
         </div>
       </div>
     );
-  }  const [messages, setMessages] = useState([
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
