@@ -1,4 +1,18 @@
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+export default function Home() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+import { useState, useEffect } from 'react';
  
 export default function Home() {
 const [isAuthenticated, setIsAuthenticated] = useState(false);
