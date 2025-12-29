@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+ 
 export default function Home() {
 const [isAuthenticated, setIsAuthenticated] = useState(false);
 const [passwordInput, setPasswordInput] = useState('');
