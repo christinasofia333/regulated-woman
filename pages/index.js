@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
  
 export default function Home() {
-export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
