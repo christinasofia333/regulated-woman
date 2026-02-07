@@ -4,6 +4,16 @@ import { useRouter } from 'next/router';
 export default function Home() {
   const router = useRouter();
   
+  const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: "Hey love 💗 I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Check authentication
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const authenticated = sessionStorage.getItem('beta-authenticated');
@@ -12,15 +22,6 @@ export default function Home() {
       }
     }
   }, [router]);
-
-  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: "I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   // Load chat history from localStorage on mount
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function Home() {
     } catch (error) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "I'm having trouble connecting right now. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be."
+        content: "I'm having trouble connecting right now, love. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be. 💗"
       }]);
     } finally {
       setIsLoading(false);
@@ -77,7 +78,7 @@ export default function Home() {
     if (confirm('Clear your chat history? This cannot be undone.')) {
       const initialMessage = {
         role: 'assistant',
-        content: "I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
+        content: "Hey love 💗 I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
       };
       setMessages([initialMessage]);
       localStorage.removeItem('feminine-regulation-chat');
