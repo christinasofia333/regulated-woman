@@ -41,9 +41,6 @@ export default function BetaAccess() {
             Access Tool
           </button>
         </form>
-        <p className="text-sm text-gray-500 mt-6 text-center">
-          Want beta access? DM @christinasofia on Instagram
-        </p>
       </div>
       
       <style jsx global>{`
