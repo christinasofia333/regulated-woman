@@ -23,24 +23,24 @@ export default function Home() {
     }
   }, [router]);
 
-  // Load chat history from localStorage on mount
+  // Load chat history
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedMessages = localStorage.getItem('feminine-regulation-chat');
-      if (savedMessages) {
+      const saved = localStorage.getItem('feminine-regulation-chat');
+      if (saved) {
         try {
-          const parsed = JSON.parse(savedMessages);
+          const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
             setMessages(parsed);
           }
         } catch (e) {
-          console.error('Error loading chat history:', e);
+          console.error('Error loading chat:', e);
         }
       }
     }
   }, []);
 
-  // Save chat history to localStorage whenever messages change
+  // Save chat history
   useEffect(() => {
     if (typeof window !== 'undefined' && messages.length > 1) {
       localStorage.setItem('feminine-regulation-chat', JSON.stringify(messages));
@@ -51,7 +51,9 @@ export default function Home() {
     if (!input.trim() || isLoading) return;
 
     const userMessage = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
+    const currentMessages = [...messages, userMessage];
+    
+    setMessages(currentMessages);
     setInput('');
     setIsLoading(true);
 
@@ -59,15 +61,16 @@ export default function Home() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, userMessage] })
+        body: JSON.stringify({ messages: currentMessages })
       });
 
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
     } catch (error) {
+      console.error('Error:', error);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "I'm having trouble connecting right now, love. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be. 💗"
+        content: "I'm having trouble connecting right now, love. Take a deep breath with me. 💗"
       }]);
     } finally {
       setIsLoading(false);
@@ -76,11 +79,11 @@ export default function Home() {
 
   const clearChat = () => {
     if (confirm('Clear your chat history? This cannot be undone.')) {
-      const initialMessage = {
+      const initial = {
         role: 'assistant',
         content: "Hey love 💗 I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
       };
-      setMessages([initialMessage]);
+      setMessages([initial]);
       localStorage.removeItem('feminine-regulation-chat');
     }
   };
@@ -140,7 +143,7 @@ export default function Home() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+            onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
             placeholder="Share what's on your heart..."
             className="flex-1 px-4 py-3 rounded-full border border-rose-200 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
           />
