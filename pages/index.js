@@ -16,11 +16,35 @@ export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hey beautiful 💫 I'm here to support you through the hard moments—mind, body, heart, and soul. What's going on right now?"
+      content: "I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
     }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Load chat history from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedMessages = localStorage.getItem('feminine-regulation-chat');
+      if (savedMessages) {
+        try {
+          const parsed = JSON.parse(savedMessages);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setMessages(parsed);
+          }
+        } catch (e) {
+          console.error('Error loading chat history:', e);
+        }
+      }
+    }
+  }, []);
+
+  // Save chat history to localStorage whenever messages change
+  useEffect(() => {
+    if (typeof window !== 'undefined' && messages.length > 1) {
+      localStorage.setItem('feminine-regulation-chat', JSON.stringify(messages));
+    }
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -42,24 +66,43 @@ export default function Home() {
     } catch (error) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "I'm having trouble connecting right now. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be. 💫"
+        content: "I'm having trouble connecting right now. Take a deep breath with me. Place your hand on your heart. You're exactly where you need to be."
       }]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const clearChat = () => {
+    if (confirm('Clear your chat history? This cannot be undone.')) {
+      const initialMessage = {
+        role: 'assistant',
+        content: "I'm here to support you through whatever you're experiencing right now - whether it's nervous system regulation, mindset work, relationship patterns, manifestation, or reconnecting with your feminine energy. What's on your heart?"
+      };
+      setMessages([initialMessage]);
+      localStorage.removeItem('feminine-regulation-chat');
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
       <div className="bg-white border-b border-rose-200 p-4 shadow-sm">
-        <div className="max-w-3xl mx-auto flex items-center gap-3">
-          <div className="w-12 h-12 bg-gradient-to-br from-rose-400 to-purple-400 rounded-full flex items-center justify-center">
-            <span className="text-2xl">💗</span>
+        <div className="max-w-3xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-rose-400 to-purple-400 rounded-full flex items-center justify-center">
+              <span className="text-2xl">💗</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold text-gray-800">Feminine Regulation</h1>
+              <p className="text-sm text-gray-600">Mind • Body • Heart • Soul Healing</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-semibold text-gray-800">Feminine Regulation</h1>
-            <p className="text-sm text-gray-600">Mind • Body • Heart • Soul Healing</p>
-          </div>
+          <button
+            onClick={clearChat}
+            className="text-sm text-gray-600 hover:text-rose-500 transition px-3 py-1 rounded hover:bg-rose-50"
+          >
+            Clear Chat
+          </button>
         </div>
       </div>
 
@@ -114,6 +157,9 @@ export default function Home() {
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs text-purple-600">
             ✨ Educational wellness tool • Not therapy • Crisis? Call 988
+          </p>
+          <p className="text-xs text-purple-500 mt-1">
+            Created by Christina Sofia • <a href="https://christinasofia.com" className="underline hover:text-purple-700">christinasofia.com</a>
           </p>
         </div>
       </div>
